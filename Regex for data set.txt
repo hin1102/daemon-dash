@@ -1,0 +1,2 @@
+Python Regex for data. Use double quote if necessary.
+': '(\S+)',
