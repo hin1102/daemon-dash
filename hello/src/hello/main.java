@@ -1,6 +1,6 @@
 package hello;
 
-public class Driver {
+public class main {
 
 	public static void main(String[] args) {
 		System.out.println("hi");
