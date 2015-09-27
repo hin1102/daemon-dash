@@ -24,7 +24,6 @@
             Select a text file: 
             <input type="file" id="fileInput">
         </div>
-        <pre id="fileDisplayArea"><pre>
 
     </div>
     
@@ -35,8 +34,15 @@
 
    var atlanta = { lat: 33.7550, lng: -84.3900 };
    var atlanta2 = { lat: 33.80, lng: -84.400 };
+   
+    	var map ;
 	
 function initMap() {
+	
+	 map = new google.maps.Map(document.getElementById('map'), {
+    					zoom: 10,
+   					 	center: atlanta
+				});
 /*
    var map = new google.maps.Map(document.getElementById('map'), {
     zoom: 10,
@@ -52,13 +58,79 @@ function initMap() {
 }
 
 
-// Adds a marker to the map.
+
+
+
+
+
+window.onload = function () {
+	   
+		var fileInput = document.getElementById('fileInput');
+		//var fileDisplayArea = document.getElementById('fileDisplayArea');
+
+		fileInput.addEventListener('change', function(e) {
+			var file = fileInput.files[0];
+			var textType = /text.*/;
+			var reader = new FileReader();
+
+			if (file.type.match(textType)) {
+				
+				reader.onload = function(e) {
+        			callback(reader.result);
+				}		
+	
+  				reader.readAsText(file);
+				
+			} else {
+				fileDisplayArea.innerText = "File not supported!"
+			}		
+			
+		});
+		
+		
+ 
+		
+  }
+  
+  function callback(data) {
+	//object
+	
+	
+ 	var merchants;
+	// = [merchant, merchant];
+	var lines = data.split('\n');
+	console.log(lines);
+	
+	for (var i = 0; i < 5; i++){
+		merchants.push(
+		var merchant = { 
+			name: lines[0],
+			id: lines[1],
+			address: lines[2],
+			lat: lines[3], 
+			lng: lines[4];
+		}	
+		)
+	}
+	
+	
+	
+  
+ 		for (var i = 0; i < merchants.length; i++){
+ 		  addMarker(merchants[i], map, data);
+		}
+			   
+
+		return data;
+  }
+  
+  
+  // Adds a marker to the map.
 function addMarker(location, map, contentString) {
 
 
   var marker = new google.maps.Marker({
     position: location,
-  //  label: labels[labelIndex++ % labels.length],
     map: map
   });
   
@@ -73,51 +145,6 @@ function addMarker(location, map, contentString) {
     infowindow.open(map, marker);
   });
 }
-
-
-
-
-window.onload = function() {
-		var fileInput = document.getElementById('fileInput');
-		var fileDisplayArea = document.getElementById('fileDisplayArea');
-
-		fileInput.addEventListener('change', function(e) {
-			var file = fileInput.files[0];
-			var textType = /text.*/;
-
-			if (file.type.match(textType)) {
-				var reader = new FileReader();
-
-				reader.onload = function(e) {
-					fileDisplayArea.innerText = reader.result;
-					
-					var lines = reader.result.split('\n');
-					
-					  for(var i = 0; i < lines.length; i++){
-     						 console.log(lines[i]);						
-    				}
-				}
-
-				reader.readAsText(file);	
-			} else {
-				fileDisplayArea.innerText = "File not supported!"
-			}
-		});
-		
-		
-  	var map = new google.maps.Map(document.getElementById('map'), {
-    	zoom: 10,
-    	center: atlanta
-  	});
-	
-  	var merchants = [atlanta, atlanta2];
-  
-    for (var i = 0; i < merchants.length; i++){
-      addMarker(merchants[i], map, '<h2>' + 'testing' + '</h2>' + '<p>' + 'hi');
-    }
-		
-		
-  }
 
 </script>
 
