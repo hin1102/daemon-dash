@@ -94,32 +94,42 @@ window.onload = function () {
   
   function callback(data) {
 	//object
+	var car = {type:"Fiat", model:500, color:"white"};
+
 	
-	
- 	var merchants;
-	// = [merchant, merchant];
+// 	var merchants = [atlanta, atlanta];
+	var merchants = [];
 	var lines = data.split('\n');
-	console.log(lines);
 	
-	for (var i = 0; i < 5; i++){
-		merchants.push(
-		var merchant = { 
-			name: lines[0],
-			id: lines[1],
-			address: lines[2],
-			lat: lines[3], 
-			lng: lines[4];
-		}	
-		)
+	
+	
+	for (var i = 0; i < lines.length-5; i++){
+	var words = lines[i].split('\" \"');
+	
+	//remove the first double quotation mark
+    	words[0] = words[0].substr(1);
+				
+		var merchant = {		
+			name: words[0],
+			id: words[1],
+			address: words[2] + ', ' + words[3],
+			lat: parseFloat(words[4]), 
+			lng: parseFloat(words[5])
+		};
+		merchants.push(merchant);
 	}
 	
-	
-	
-  
+	for (var i = 0; i < merchants.length ; i++){
+	console.log(merchants[i]);
+	}
+		
+
  		for (var i = 0; i < merchants.length; i++){
- 		  addMarker(merchants[i], map, data);
+		var coordinate = {lat: merchants[i].lat, lng: merchants[i].lng};
+		var str = '<h3>' + merchants[i].name + '</h3>'+ '<br>' + merchants[i].address;
+ 		  addMarker(coordinate, map, str);
 		}
-			   
+	   
 
 		return data;
   }
